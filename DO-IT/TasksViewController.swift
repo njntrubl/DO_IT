@@ -12,6 +12,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     @IBOutlet weak var tableView: UITableView!
     var tasks : [Task] = []
+    var selectedIndex = 0
     
     
     override func viewDidLoad() {
@@ -43,6 +44,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedIndex = indexPath.row
         let task = tasks[indexPath.row]
         performSegue(withIdentifier: "selectTaskSegue", sender: task)
     }
@@ -58,7 +60,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let task3 = Task()
         task3.name = "Get flu shot"
-        task3.important = true
+        task3.important = false
         
         return [task1, task2, task3]
     }
@@ -76,6 +78,7 @@ class TasksViewController: UIViewController, UITableViewDataSource, UITableViewD
         if segue.identifier == "selectTaskSegue" {
             let nextVC = segue.destination as! CompleteTaskViewController
             nextVC.task = sender as! Task
+            nextVC.previousVC = self
         }
 }
     override func didReceiveMemoryWarning() {
